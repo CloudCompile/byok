@@ -35,7 +35,7 @@ function AddKeyModal({ onClose, onAdd, providers }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="glass w-full max-w-md animate-slide-up border border-white/10">
-        <div className="flex items-center justify-between p-5 border-b border-white/8">
+        <div className="flex items-center justify-between p-5 border-b border-white/10">
           <h2 className="section-title">Add API Key</h2>
           <button onClick={onClose} className="text-text-muted hover:text-text-primary transition-colors">
             <X size={18} />

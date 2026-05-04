@@ -39,7 +39,7 @@ function RuleRow({ rule, providers, onToggle, onDelete }) {
         <button
           onClick={() => onToggle(rule.$id, rule.isActive)}
           className={clsx('px-2 py-1 rounded text-xs font-medium transition-all',
-            rule.isActive ? 'bg-success/15 text-success hover:bg-success/25' : 'bg-white/5 text-text-muted hover:bg-white/10')}
+            rule.isActive ? 'bg-success/10 text-success hover:bg-success/20' : 'bg-white/5 text-text-muted hover:bg-white/10')}
         >
           {rule.isActive ? 'Active' : 'Disabled'}
         </button>
@@ -71,7 +71,7 @@ function AddRuleModal({ onClose, onAdd, providers }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="glass w-full max-w-lg animate-slide-up border border-white/10">
-        <div className="flex items-center justify-between p-5 border-b border-white/8">
+        <div className="flex items-center justify-between p-5 border-b border-white/10">
           <h2 className="section-title">Add Routing Rule</h2>
           <button onClick={onClose} className="text-text-muted hover:text-text-primary"><X size={18} /></button>
         </div>

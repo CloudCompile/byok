@@ -73,7 +73,7 @@
 
   .btn-secondary {
     @apply glass text-text-primary font-medium px-4 py-2 rounded-lg
-           transition-all duration-200 hover:bg-white/8
+           transition-all duration-200 hover:bg-white/10
            active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
            focus:outline-none focus:ring-2 focus:ring-white/20;
   }
@@ -99,19 +99,19 @@
   }
 
   .badge-green {
-    @apply badge bg-success/15 text-success;
+    @apply badge bg-success/10 text-success;
   }
 
   .badge-yellow {
-    @apply badge bg-warning/15 text-warning;
+    @apply badge bg-warning/10 text-warning;
   }
 
   .badge-red {
-    @apply badge bg-error/15 text-error;
+    @apply badge bg-error/10 text-error;
   }
 
   .badge-blue {
-    @apply badge bg-blurple/15 text-blurple;
+    @apply badge bg-blurple/10 text-blurple;
   }
 
   .stat-card {
@@ -127,7 +127,7 @@
   }
 
   .divider {
-    @apply border-t border-white/8 my-4;
+    @apply border-t border-white/10 my-4;
   }
 
   .mono {
