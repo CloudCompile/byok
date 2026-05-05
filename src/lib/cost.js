@@ -303,18 +303,33 @@ export const PROVIDER_PRICING = {
   },
 };
 
+function normalizeModel(model) {
+  return model.toLowerCase().trim();
+}
+
 export function calculateCost(provider, model, inputTokens, outputTokens) {
   const providerPricing = PROVIDER_PRICING[provider];
-  if (!providerPricing) return 0;
+  if (!providerPricing) {
+    console.warn(`Unknown provider: ${provider}`);
+    return 0;
+  }
 
-  const pricing = providerPricing[model] || providerPricing['default'];
-  if (!pricing) return 0;
+  const normalizedModel = normalizeModel(model);
+  const pricing = providerPricing[normalizedModel] || providerPricing['default'];
 
-  return (inputTokens * pricing.input) / 1_000_000 + (outputTokens * pricing.output) / 1_000_000;
+  if (!pricing) {
+    console.warn(`Unknown model: ${provider}/${model}`);
+    return 0;
+  }
+
+  const total = (inputTokens * pricing.input) / 1_000_000 + (outputTokens * pricing.output) / 1_000_000;
+  return Number(total.toFixed(6));
 }
 
 export function getProviderPricing(provider, model) {
   const providerPricing = PROVIDER_PRICING[provider];
   if (!providerPricing) return null;
-  return providerPricing[model] || providerPricing['default'] || null;
+
+  const normalizedModel = normalizeModel(model);
+  return providerPricing[normalizedModel] || providerPricing['default'] || null;
 }
