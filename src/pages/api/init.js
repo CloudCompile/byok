@@ -93,20 +93,6 @@ export default async function handler(req, res) {
       ],
     },
     {
-      id: 'routing_rules',
-      name: 'Routing Rules',
-      attributes: [
-        { key: 'userId', type: 'string', size: 255, required: true },
-        { key: 'name', type: 'string', size: 255, required: true },
-        { key: 'condition', type: 'string', size: 100, required: true },
-        { key: 'conditionValue', type: 'string', size: 255, required: false, default: '' },
-        { key: 'targetProvider', type: 'string', size: 100, required: true },
-        { key: 'fallbackProvider', type: 'string', size: 100, required: false, default: '' },
-        { key: 'priority', type: 'integer', required: false, default: 0 },
-        { key: 'isActive', type: 'boolean', required: false, default: true },
-      ],
-    },
-    {
       id: 'request_logs',
       name: 'Request Logs',
       attributes: [
