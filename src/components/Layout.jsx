@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
   LayoutDashboard, Key, BarChart2, Settings, GitBranch,
-  History, Terminal, Menu, X, Zap, ChevronRight,
+  History, Terminal, Menu, X, Zap, ChevronRight, Layers,
 } from 'lucide-react';
 import clsx from 'clsx';
 
@@ -13,6 +13,7 @@ const NAV = [
   { href: '/analytics', label: 'Analytics', icon: BarChart2 },
   { href: '/history', label: 'History', icon: History },
   { href: '/routing', label: 'Routing Rules', icon: GitBranch },
+  { href: '/models', label: 'Models & Pricing', icon: Layers },
   { href: '/gateway', label: 'Gateway Keys', icon: Terminal },
   { href: '/settings', label: 'Settings', icon: Settings },
 ];

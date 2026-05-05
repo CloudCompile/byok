@@ -60,6 +60,7 @@ export async function translate(openaiRequest, apiKey) {
   const data = await response.json();
   const inputTokens = data.usage?.input_tokens || 0;
   const outputTokens = data.usage?.output_tokens || 0;
+  const cachedTokens = data.usage?.cache_read_input_tokens || 0;
 
   return {
     id: data.id,
@@ -80,7 +81,8 @@ export async function translate(openaiRequest, apiKey) {
       prompt_tokens: inputTokens,
       completion_tokens: outputTokens,
       total_tokens: inputTokens + outputTokens,
+      cached_tokens: cachedTokens,
     },
-    _metadata: { provider: config.name, cost: calculateCost(config.name, model, inputTokens, outputTokens) },
+    _metadata: { provider: config.name, cachedTokens, cost: calculateCost(config.name, model, inputTokens, outputTokens, cachedTokens) },
   };
 }

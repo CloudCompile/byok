@@ -1,50 +1,51 @@
-// Per-1M-token pricing: { input, output }
+// Per-1M-token pricing: { input, output, cached_input? }
+// Image models: { type: 'image', cost_per_image }
 // Sources: official provider pricing pages (May 2026)
 export const PROVIDER_PRICING = {
   anthropic: {
-    // Claude 4.x
-    'claude-opus-4-7':                   { input: 5,    output: 25 },
-    'claude-opus-4-6':                   { input: 5,    output: 25 },
-    'claude-opus-4-5':                   { input: 5,    output: 25 },
-    'claude-opus-4-1':                   { input: 15,   output: 75 },
-    'claude-opus-4':                     { input: 15,   output: 75 },
-    'claude-sonnet-4-6':                 { input: 3,    output: 15 },
-    'claude-sonnet-4-5':                 { input: 3,    output: 15 },
-    'claude-sonnet-4':                   { input: 3,    output: 15 },
-    'claude-haiku-4-5':                  { input: 1,    output: 5  },
+    // Claude 4.x — cached_input = 10% of input
+    'claude-opus-4-7':                   { input: 5,    output: 25,   cached_input: 0.5   },
+    'claude-opus-4-6':                   { input: 5,    output: 25,   cached_input: 0.5   },
+    'claude-opus-4-5':                   { input: 5,    output: 25,   cached_input: 0.5   },
+    'claude-opus-4-1':                   { input: 15,   output: 75,   cached_input: 1.5   },
+    'claude-opus-4':                     { input: 15,   output: 75,   cached_input: 1.5   },
+    'claude-sonnet-4-6':                 { input: 3,    output: 15,   cached_input: 0.3   },
+    'claude-sonnet-4-5':                 { input: 3,    output: 15,   cached_input: 0.3   },
+    'claude-sonnet-4':                   { input: 3,    output: 15,   cached_input: 0.3   },
+    'claude-haiku-4-5':                  { input: 1,    output: 5,    cached_input: 0.1   },
     // Claude 3.x (versioned IDs)
-    'claude-3-5-sonnet-20241022':        { input: 3,    output: 15 },
-    'claude-3-5-sonnet-20240620':        { input: 3,    output: 15 },
-    'claude-3-5-haiku-20241022':         { input: 0.8,  output: 4  },
-    'claude-3-haiku-20240307':           { input: 0.25, output: 1.25 },
-    'claude-3-opus-20240229':            { input: 15,   output: 75 },
-    'claude-3-sonnet-20240229':          { input: 3,    output: 15 },
-    'claude-haiku-4-5-20251001':         { input: 1,    output: 5  },
-    default:                             { input: 3,    output: 15 },
+    'claude-3-5-sonnet-20241022':        { input: 3,    output: 15,   cached_input: 0.3   },
+    'claude-3-5-sonnet-20240620':        { input: 3,    output: 15,   cached_input: 0.3   },
+    'claude-3-5-haiku-20241022':         { input: 0.8,  output: 4,    cached_input: 0.08  },
+    'claude-3-haiku-20240307':           { input: 0.25, output: 1.25, cached_input: 0.03  },
+    'claude-3-opus-20240229':            { input: 15,   output: 75,   cached_input: 1.5   },
+    'claude-3-sonnet-20240229':          { input: 3,    output: 15,   cached_input: 0.3   },
+    'claude-haiku-4-5-20251001':         { input: 1,    output: 5,    cached_input: 0.1   },
+    default:                             { input: 3,    output: 15,   cached_input: 0.3   },
   },
 
   openai: {
-    // GPT-5.x family
-    'gpt-5.5':                           { input: 5,    output: 30   },
-    'gpt-5.5-pro':                       { input: 30,   output: 180  },
-    'gpt-5.4':                           { input: 2.5,  output: 15   },
-    'gpt-5.4-mini':                      { input: 0.75, output: 4.5  },
-    'gpt-5.4-nano':                      { input: 0.2,  output: 1.25 },
-    'gpt-5.4-pro':                       { input: 30,   output: 180  },
-    'gpt-5.2':                           { input: 1.75, output: 14   },
-    'gpt-5.2-pro':                       { input: 21,   output: 168  },
-    'gpt-5.1':                           { input: 1.25, output: 10   },
-    'gpt-5':                             { input: 1.25, output: 10   },
-    'gpt-5-mini':                        { input: 0.25, output: 2    },
-    'gpt-5-nano':                        { input: 0.05, output: 0.4  },
-    'gpt-5-pro':                         { input: 15,   output: 120  },
+    // GPT-5.x family — cached_input = 50% of input
+    'gpt-5.5':                           { input: 5,    output: 30,   cached_input: 2.5    },
+    'gpt-5.5-pro':                       { input: 30,   output: 180,  cached_input: 15     },
+    'gpt-5.4':                           { input: 2.5,  output: 15,   cached_input: 1.25   },
+    'gpt-5.4-mini':                      { input: 0.75, output: 4.5,  cached_input: 0.375  },
+    'gpt-5.4-nano':                      { input: 0.2,  output: 1.25, cached_input: 0.1    },
+    'gpt-5.4-pro':                       { input: 30,   output: 180,  cached_input: 15     },
+    'gpt-5.2':                           { input: 1.75, output: 14,   cached_input: 0.875  },
+    'gpt-5.2-pro':                       { input: 21,   output: 168,  cached_input: 10.5   },
+    'gpt-5.1':                           { input: 1.25, output: 10,   cached_input: 0.625  },
+    'gpt-5':                             { input: 1.25, output: 10,   cached_input: 0.625  },
+    'gpt-5-mini':                        { input: 0.25, output: 2,    cached_input: 0.125  },
+    'gpt-5-nano':                        { input: 0.05, output: 0.4,  cached_input: 0.025  },
+    'gpt-5-pro':                         { input: 15,   output: 120,  cached_input: 7.5    },
     // GPT-4.x family
-    'gpt-4.1':                           { input: 2,    output: 8    },
-    'gpt-4.1-mini':                      { input: 0.4,  output: 1.6  },
-    'gpt-4.1-nano':                      { input: 0.1,  output: 0.4  },
-    'gpt-4o':                            { input: 2.5,  output: 10   },
-    'gpt-4o-2024-05-13':                 { input: 5,    output: 15   },
-    'gpt-4o-mini':                       { input: 0.15, output: 0.6  },
+    'gpt-4.1':                           { input: 2,    output: 8,    cached_input: 1      },
+    'gpt-4.1-mini':                      { input: 0.4,  output: 1.6,  cached_input: 0.2    },
+    'gpt-4.1-nano':                      { input: 0.1,  output: 0.4,  cached_input: 0.05   },
+    'gpt-4o':                            { input: 2.5,  output: 10,   cached_input: 1.25   },
+    'gpt-4o-2024-05-13':                 { input: 5,    output: 15,   cached_input: 2.5    },
+    'gpt-4o-mini':                       { input: 0.15, output: 0.6,  cached_input: 0.075  },
     // o-series
     'o1':                                { input: 15,   output: 60   },
     'o1-pro':                            { input: 150,  output: 600  },
@@ -241,9 +242,27 @@ export const PROVIDER_PRICING = {
     default:                             { input: 1,    output: 3    },
   },
 
-  // Pollinations — prices in $/1M tokens (1 pollen = $1)
+  stability: {
+    'stable-diffusion-xl-1024-v1-0':    { type: 'image', cost_per_image: 0.065  },
+    'sd3-medium':                        { type: 'image', cost_per_image: 0.035  },
+    'sd3-large':                         { type: 'image', cost_per_image: 0.065  },
+    'sd3-large-turbo':                   { type: 'image', cost_per_image: 0.04   },
+    'stable-image-core':                 { type: 'image', cost_per_image: 0.03   },
+    'stable-image-ultra':                { type: 'image', cost_per_image: 0.08   },
+    default:                             { type: 'image', cost_per_image: 0.065  },
+  },
+
+  // Pollinations — text models in $/1M tokens, image models per image
   pollinations: {
-    'flux':                              { input: 0,      output: 0      }, // free image
+    // Image generation models
+    'flux':                              { type: 'image', cost_per_image: 0      }, // free
+    'flux-pro':                          { type: 'image', cost_per_image: 0.005  },
+    'flux-realism':                      { type: 'image', cost_per_image: 0.002  },
+    'flux-anime':                        { type: 'image', cost_per_image: 0.001  },
+    'flux-3d':                           { type: 'image', cost_per_image: 0.001  },
+    'turbo':                             { type: 'image', cost_per_image: 0      }, // Flux Schnell, free
+    'gptimage':                          { type: 'image', cost_per_image: 0.04   }, // DALL-E 3
+    // Text/LLM models
     'openai':                            { input: 0.2,    output: 1.25   }, // GPT-5.4 Nano
     'openai-fast':                       { input: 0.05,   output: 0.4    }, // GPT-5 Nano
     'openai-large':                      { input: 2.5,    output: 15     }, // GPT-5.4
@@ -307,7 +326,7 @@ function normalizeModel(model) {
   return model.toLowerCase().trim();
 }
 
-export function calculateCost(provider, model, inputTokens, outputTokens) {
+export function calculateCost(provider, model, inputTokens, outputTokens, cachedTokens = 0) {
   const providerPricing = PROVIDER_PRICING[provider];
   if (!providerPricing) {
     console.warn(`Unknown provider: ${provider}`);
@@ -322,7 +341,15 @@ export function calculateCost(provider, model, inputTokens, outputTokens) {
     return 0;
   }
 
-  const total = (inputTokens * pricing.input) / 1_000_000 + (outputTokens * pricing.output) / 1_000_000;
+  if (pricing.type === 'image') {
+    return Number((pricing.cost_per_image || 0).toFixed(6));
+  }
+
+  const uncached = Math.max(0, inputTokens - cachedTokens);
+  const total =
+    (uncached * pricing.input) / 1_000_000 +
+    (cachedTokens * (pricing.cached_input ?? pricing.input)) / 1_000_000 +
+    (outputTokens * pricing.output) / 1_000_000;
   return Number(total.toFixed(6));
 }
 

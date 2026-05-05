@@ -115,6 +115,7 @@ export default async function handler(req, res) {
         { key: 'provider', type: 'string', size: 100, required: true },
         { key: 'tokensInput', type: 'integer', required: false, default: 0 },
         { key: 'tokensOutput', type: 'integer', required: false, default: 0 },
+        { key: 'tokensCached', type: 'integer', required: false, default: 0 },
         { key: 'estimatedCost', type: 'double', required: false, default: 0 },
         { key: 'statusCode', type: 'integer', required: false, default: 200 },
         { key: 'timestamp', type: 'datetime', required: false },
