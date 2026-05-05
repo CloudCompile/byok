@@ -165,18 +165,6 @@ export const PROVIDER_PRICING = {
     default:                             { input: 2,    output: 10   },
   },
 
-  bedrock: {
-    'anthropic.claude-3-5-sonnet-20241022-v2:0': { input: 3,    output: 15   },
-    'anthropic.claude-3-haiku-20240307-v1:0':    { input: 0.25, output: 1.25 },
-    'meta.llama3-1-70b-instruct-v1:0':           { input: 0.72, output: 0.72 },
-    'amazon.titan-text-premier-v1:0':            { input: 0.5,  output: 1.5  },
-    default:                                     { input: 1,    output: 3    },
-  },
-
-  azure: {
-    default:                             { input: 5,    output: 15   },
-  },
-
   vertexai: {
     default:                             { input: 1.25, output: 5    },
   },
@@ -185,14 +173,6 @@ export const PROVIDER_PRICING = {
     'meta-llama/Meta-Llama-3.1-70B-Instruct': { input: 0.52, output: 0.75 },
     'mistralai/Mixtral-8x7B-Instruct-v0.1':   { input: 0.27, output: 0.27 },
     default:                                  { input: 0.5,  output: 0.75 },
-  },
-
-  replicate: {
-    default:                             { input: 0.65, output: 2.75 },
-  },
-
-  huggingface: {
-    default:                             { input: 0.1,  output: 0.1  },
   },
 
   ollama: {
@@ -230,16 +210,64 @@ export const PROVIDER_PRICING = {
     default:                             { input: 0.1,  output: 0    },
   },
 
-  portkey: {
-    default:                             { input: 1,    output: 3    },
+  // ElevenLabs — character-based TTS, hour-based STT, minute-based audio
+  elevenlabs: {
+    'eleven_flash_v2':                   { type: 'tts', cost_per_1k_chars: 0.05  },
+    'eleven_flash_v2_5':                 { type: 'tts', cost_per_1k_chars: 0.05  },
+    'eleven_turbo_v2':                   { type: 'tts', cost_per_1k_chars: 0.05  },
+    'eleven_turbo_v2_5':                 { type: 'tts', cost_per_1k_chars: 0.05  },
+    'eleven_multilingual_v2':            { type: 'tts', cost_per_1k_chars: 0.10  },
+    'eleven_multilingual_v3':            { type: 'tts', cost_per_1k_chars: 0.10  },
+    'scribe_v1':                         { type: 'stt', cost_per_hour: 0.22      },
+    'scribe_v2':                         { type: 'stt', cost_per_hour: 0.22      },
+    'scribe_v2_realtime':                { type: 'stt', cost_per_hour: 0.39      },
+    'music_v1':                          { type: 'audio', cost_per_minute: 0.30  },
+    'voice_isolator':                    { type: 'audio', cost_per_minute: 0.12  },
+    'voice_changer':                     { type: 'audio', cost_per_minute: 0.12  },
+    'sound_effects_v1':                  { type: 'audio', cost_per_minute: 0.12  },
+    default:                             { type: 'tts', cost_per_1k_chars: 0.10  },
   },
 
   cloudflare: {
-    default:                             { input: 0.11, output: 0.11 },
-  },
-
-  bifrost: {
-    default:                             { input: 1,    output: 3    },
+    // LLM models
+    '@cf/meta/llama-3.2-1b-instruct':               { input: 0.027,  output: 0.201  },
+    '@cf/meta/llama-3.2-3b-instruct':               { input: 0.051,  output: 0.335  },
+    '@cf/meta/llama-3.1-8b-instruct-fp8-fast':      { input: 0.045,  output: 0.384  },
+    '@cf/meta/llama-3.2-11b-vision-instruct':       { input: 0.049,  output: 0.676  },
+    '@cf/meta/llama-3.1-70b-instruct-fp8-fast':     { input: 0.293,  output: 2.253  },
+    '@cf/meta/llama-3.3-70b-instruct-fp8-fast':     { input: 0.293,  output: 2.253  },
+    '@cf/deepseek-ai/deepseek-r1-distill-qwen-32b': { input: 0.497,  output: 4.881  },
+    '@cf/mistral/mistral-7b-instruct-v0.1':         { input: 0.110,  output: 0.190  },
+    '@cf/mistralai/mistral-small-3.1-24b-instruct': { input: 0.351,  output: 0.555  },
+    '@cf/meta/llama-3.1-8b-instruct':               { input: 0.282,  output: 0.827  },
+    '@cf/meta/llama-3-8b-instruct':                 { input: 0.282,  output: 0.827  },
+    '@cf/meta/llama-4-scout-17b-16e-instruct':      { input: 0.270,  output: 0.850  },
+    '@cf/google/gemma-3-12b-it':                    { input: 0.345,  output: 0.556  },
+    '@cf/qwen/qwq-32b':                             { input: 0.660,  output: 1.000  },
+    '@cf/qwen/qwen2.5-coder-32b-instruct':          { input: 0.660,  output: 1.000  },
+    '@cf/qwen/qwen3-30b-a3b-fp8':                   { input: 0.051,  output: 0.335  },
+    '@cf/openai/gpt-oss-120b':                      { input: 0.350,  output: 0.750  },
+    '@cf/openai/gpt-oss-20b':                       { input: 0.200,  output: 0.300  },
+    '@cf/google/gemma-4-26b-a4b-it':               { input: 0.100,  output: 0.300  },
+    '@cf/moonshotai/kimi-k2.5':                     { input: 0.600,  output: 3.000, cached_input: 0.100 },
+    '@cf/moonshotai/kimi-k2.6':                     { input: 0.950,  output: 4.000, cached_input: 0.160 },
+    '@cf/ibm-granite/granite-4.0-h-micro':          { input: 0.017,  output: 0.112  },
+    '@cf/nvidia/nemotron-3-120b-a12b':              { input: 0.500,  output: 1.500  },
+    // Embeddings
+    '@cf/baai/bge-small-en-v1.5':                   { input: 0.020,  output: 0      },
+    '@cf/baai/bge-base-en-v1.5':                    { input: 0.067,  output: 0      },
+    '@cf/baai/bge-large-en-v1.5':                   { input: 0.204,  output: 0      },
+    '@cf/baai/bge-m3':                              { input: 0.012,  output: 0      },
+    '@cf/qwen/qwen3-embedding-0.6b':                { input: 0.012,  output: 0      },
+    // Image generation
+    '@cf/black-forest-labs/flux-1-schnell':         { type: 'image', cost_per_image: 0.003  },
+    '@cf/black-forest-labs/flux-2-klein-9b':        { type: 'image', cost_per_image: 0.015  },
+    // Audio
+    '@cf/openai/whisper':                           { type: 'stt',   cost_per_hour: 0.03   },
+    '@cf/openai/whisper-large-v3-turbo':            { type: 'stt',   cost_per_hour: 0.03   },
+    '@cf/deepgram/aura-2-en':                       { type: 'tts',   cost_per_1k_chars: 0.03 },
+    '@cf/deepgram/nova-3':                          { type: 'stt',   cost_per_hour: 0.312  },
+    default:                                        { input: 0.11,   output: 0.11   },
   },
 
   stability: {
@@ -343,6 +371,15 @@ export function calculateCost(provider, model, inputTokens, outputTokens, cached
 
   if (pricing.type === 'image') {
     return Number((pricing.cost_per_image || 0).toFixed(6));
+  }
+
+  if (pricing.type === 'tts') {
+    // Adapter should set _metadata.cost directly with actual char count; this is a fallback
+    return Number((pricing.cost_per_1k_chars || 0).toFixed(6));
+  }
+
+  if (pricing.type === 'stt' || pricing.type === 'audio') {
+    return Number((pricing.cost_per_hour || pricing.cost_per_minute || 0).toFixed(6));
   }
 
   const uncached = Math.max(0, inputTokens - cachedTokens);

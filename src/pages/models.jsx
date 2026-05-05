@@ -22,6 +22,22 @@ function PricingCell({ pricing }) {
     );
   }
 
+  if (pricing.type === 'tts') {
+    return (
+      <span className="text-xs font-mono text-orange-400">
+        {formatPrice(pricing.cost_per_1k_chars || 0)}/1K chars
+      </span>
+    );
+  }
+
+  if (pricing.type === 'stt') {
+    return (
+      <span className="text-xs font-mono text-yellow-400">
+        {formatPrice(pricing.cost_per_hour || 0)}/hr
+      </span>
+    );
+  }
+
   if (pricing.type === 'audio') {
     return (
       <span className="text-xs font-mono text-orange-400">
@@ -47,6 +63,16 @@ function TypeBadge({ type }) {
   if (type === 'image') return (
     <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs bg-purple-500/10 text-purple-400 border border-purple-500/20">
       <Image size={10} /> image
+    </span>
+  );
+  if (type === 'tts') return (
+    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs bg-orange-500/10 text-orange-400 border border-orange-500/20">
+      <Volume2 size={10} /> TTS
+    </span>
+  );
+  if (type === 'stt') return (
+    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
+      <Volume2 size={10} /> STT
     </span>
   );
   if (type === 'audio') return (

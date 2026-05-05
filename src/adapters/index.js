@@ -13,10 +13,6 @@ import * as siliconflow from './siliconflow';
 import * as cerebras from './cerebras';
 import * as grok from './grok';
 import * as deepinfra from './deepinfra';
-import * as replicate from './replicate';
-import * as huggingface from './huggingface';
-import * as bedrock from './bedrock';
-import * as azure from './azure';
 import * as vertexai from './vertexai';
 import * as ibm from './ibm';
 import * as ollama from './ollama';
@@ -31,9 +27,7 @@ import * as nomic from './nomic';
 import * as stability from './stability';
 import * as pollinations from './pollinations';
 import * as elevenlabs from './elevenlabs';
-import * as portkey from './portkey';
 import * as cloudflare from './cloudflare';
-import * as bifrost from './bifrost';
 import * as customOpenAI from './custom-openai';
 
 const ADAPTERS = {
@@ -52,10 +46,6 @@ const ADAPTERS = {
   cerebras,
   xai: grok,
   deepinfra,
-  replicate,
-  huggingface,
-  bedrock,
-  azure,
   vertexai,
   ibm,
   ollama,
@@ -70,9 +60,7 @@ const ADAPTERS = {
   stability,
   pollinations,
   elevenlabs,
-  portkey,
   cloudflare,
-  bifrost,
   custom: customOpenAI,
 };
 

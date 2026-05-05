@@ -5,14 +5,14 @@ import { fetchKeys, createKey, updateKey, deleteKey, fetchProviders } from '../l
 import clsx from 'clsx';
 
 const PROVIDER_TIERS = {
-  'Tier 1 — Frontier': ['anthropic', 'openai', 'google', 'deepseek'],
-  'Tier 2 — Aggregators': ['openrouter', 'wavespeedai', 'together', 'huggingface', 'perplexity'],
-  'Tier 3 — Cost/Speed': ['siliconflow', 'groq', 'fireworks', 'mistral', 'replicate', 'cohere', 'inference', 'qwen'],
-  'Tier 4 — Enterprise': ['bedrock', 'azure', 'vertexai', 'ibm', 'cerebras', 'modal', 'deepinfra', 'anyscale'],
-  'Tier 5 — Infrastructure': ['ollama', 'bifrost', 'portkey', 'cloudflare'],
-  'Tier 6 — Embeddings': ['voyage', 'jina', 'nomic'],
-  'Tier 7 — Multimodal': ['stability', 'pollinations', 'elevenlabs'],
-  'Tier 8 — Custom': ['custom', 'xai'],
+  'Frontier': ['anthropic', 'openai', 'google', 'deepseek', 'xai'],
+  'Aggregators': ['openrouter', 'together', 'perplexity', 'wavespeedai'],
+  'Cost / Speed': ['siliconflow', 'groq', 'fireworks', 'mistral', 'cohere', 'inference', 'qwen', 'cerebras'],
+  'Managed Cloud': ['vertexai', 'ibm', 'modal', 'deepinfra', 'anyscale'],
+  'Infrastructure': ['ollama', 'cloudflare'],
+  'Embeddings': ['voyage', 'jina', 'nomic'],
+  'Multimodal / Audio': ['stability', 'pollinations', 'elevenlabs'],
+  'Custom': ['custom'],
 };
 
 function AddKeyModal({ onClose, onAdd, providers }) {
@@ -79,7 +79,7 @@ function AddKeyModal({ onClose, onAdd, providers }) {
               <input
                 className="input pr-10"
                 type={showKey ? 'text' : 'password'}
-                placeholder={form.provider === 'bedrock' ? 'accessKeyId:secretAccessKey:region' : form.provider === 'azure' ? 'endpoint|apiKey|deployment' : 'sk-...'}
+                placeholder={form.provider === 'ollama' ? 'http://localhost:11434' : 'sk-...'}
                 value={form.apiKey}
                 onChange={(e) => setForm({ ...form, apiKey: e.target.value })}
                 required
@@ -92,14 +92,13 @@ function AddKeyModal({ onClose, onAdd, providers }) {
                 {showKey ? <EyeOff size={14} /> : <Eye size={14} />}
               </button>
             </div>
-            {selectedProvider && ['bedrock', 'azure', 'vertexai', 'ibm', 'cloudflare'].includes(form.provider) && (
+            {selectedProvider && ['vertexai', 'ibm', 'cloudflare', 'ollama', 'custom'].includes(form.provider) && (
               <p className="text-xs text-text-muted mt-1">
-                {form.provider === 'bedrock' && 'Format: accessKeyId:secretAccessKey:region'}
-                {form.provider === 'azure' && 'Format: endpoint|apiKey|deploymentName'}
                 {form.provider === 'vertexai' && 'JSON: {"projectId":"...","location":"...","accessToken":"..."}'}
                 {form.provider === 'ibm' && 'Format: apiKey:projectId'}
                 {form.provider === 'cloudflare' && 'Format: accountId:apiToken'}
                 {form.provider === 'ollama' && 'Base URL, e.g. http://localhost:11434'}
+                {form.provider === 'custom' && 'Format: baseUrl|apiToken (or just the token)'}
               </p>
             )}
           </div>

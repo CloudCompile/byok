@@ -7,9 +7,8 @@ import { databases, DB_ID, COLLECTIONS } from './appwrite';
 const PREFIX_PROVIDERS = new Set([
   'anthropic','openai','google','deepseek','openrouter','groq','together','mistral',
   'perplexity','fireworks','cohere','siliconflow','cerebras','xai','deepinfra',
-  'replicate','huggingface','bedrock','azure','vertexai','ibm','ollama','wavespeedai',
-  'inference','qwen','anyscale','modal','voyage','jina','nomic','stability',
-  'pollinations','elevenlabs','portkey','cloudflare','bifrost','custom',
+  'vertexai','ibm','ollama','wavespeedai','inference','qwen','anyscale','modal',
+  'voyage','jina','nomic','stability','pollinations','elevenlabs','cloudflare','custom',
 ]);
 
 // Parse "@provider/model" prefix — returns { provider, model } or { provider: null, model }
@@ -38,7 +37,6 @@ export function detectProvider(model) {
   if (m.startsWith('command')) return 'cohere';
   if (m.startsWith('grok')) return 'xai';
   if (m.startsWith('accounts/fireworks')) return 'fireworks';
-  if (m.startsWith('anthropic.') || m.startsWith('amazon.') || m.startsWith('meta.llama') || m.startsWith('mistral.')) return 'bedrock';
   if (m.startsWith('@cf/')) return 'cloudflare';
   if (m.startsWith('ibm/') || m.startsWith('ibm-')) return 'ibm';
   if (m.startsWith('voyage')) return 'voyage';
