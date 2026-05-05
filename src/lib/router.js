@@ -3,6 +3,25 @@ import { decrypt } from './encryption';
 import { calculateCost } from './cost';
 import { databases, DB_ID, COLLECTIONS } from './appwrite';
 
+// Providers that support the @provider/model prefix syntax
+const PREFIX_PROVIDERS = new Set([
+  'anthropic','openai','google','deepseek','openrouter','groq','together','mistral',
+  'perplexity','fireworks','cohere','siliconflow','cerebras','xai','deepinfra',
+  'vertexai','ibm','ollama','wavespeedai','inference','qwen','anyscale','modal',
+  'voyage','jina','nomic','stability','pollinations','elevenlabs','cloudflare','custom',
+]);
+
+// Parse "@provider/model" prefix — returns { provider, model } or { provider: null, model }
+export function parseProviderPrefix(model) {
+  if (!model || !model.startsWith('@')) return { provider: null, model };
+  const rest = model.slice(1);
+  const slash = rest.indexOf('/');
+  if (slash === -1) return { provider: null, model };
+  const prefix = rest.slice(0, slash);
+  if (!PREFIX_PROVIDERS.has(prefix)) return { provider: null, model };
+  return { provider: prefix, model: rest.slice(slash + 1) };
+}
+
 // Determine which provider to use for a given model string
 export function detectProvider(model) {
   if (!model) return null;
@@ -18,7 +37,6 @@ export function detectProvider(model) {
   if (m.startsWith('command')) return 'cohere';
   if (m.startsWith('grok')) return 'xai';
   if (m.startsWith('accounts/fireworks')) return 'fireworks';
-  if (m.startsWith('anthropic.') || m.startsWith('amazon.') || m.startsWith('meta.llama') || m.startsWith('mistral.')) return 'bedrock';
   if (m.startsWith('@cf/')) return 'cloudflare';
   if (m.startsWith('ibm/') || m.startsWith('ibm-')) return 'ibm';
   if (m.startsWith('voyage')) return 'voyage';
@@ -99,6 +117,7 @@ export async function logRequest(userId, model, provider, usage, statusCode, cos
       provider,
       tokensInput: usage?.prompt_tokens || 0,
       tokensOutput: usage?.completion_tokens || 0,
+      tokensCached: usage?.cached_tokens || 0,
       estimatedCost: cost || 0,
       statusCode,
       timestamp: new Date().toISOString(),
@@ -109,9 +128,21 @@ export async function logRequest(userId, model, provider, usage, statusCode, cos
 }
 
 export async function routeRequest(openaiRequest, userKeys, userRules, userId) {
-  const { model } = openaiRequest;
+  // Support "@provider/model" prefix for explicit provider targeting
+  const { provider: prefixedProvider, model: strippedModel } = parseProviderPrefix(openaiRequest.model || '');
+  const effectiveRequest = prefixedProvider
+    ? { ...openaiRequest, model: strippedModel }
+    : openaiRequest;
+  const { model } = effectiveRequest;
 
-  const target = findBestProvider(model, userKeys, userRules);
+  let target;
+  if (prefixedProvider) {
+    const key = userKeys.find((k) => k.provider === prefixedProvider && k.isActive);
+    if (!key) throw new Error(`No active key for provider "${prefixedProvider}". Add one in the dashboard.`);
+    target = { key, provider: prefixedProvider };
+  } else {
+    target = findBestProvider(model, userKeys, userRules);
+  }
 
   if (!target) {
     throw new Error('No available API keys configured for this model. Please add an API key in the dashboard.');
@@ -125,11 +156,12 @@ export async function routeRequest(openaiRequest, userKeys, userRules, userId) {
   const apiKey = decrypt(target.key.encryptedKey);
 
   try {
-    const response = await adapter.translate(openaiRequest, apiKey);
+    const response = await adapter.translate(effectiveRequest, apiKey);
 
     // Log usage (non-blocking)
     if (!response.stream) {
-      const cost = response._metadata?.cost || calculateCost(target.provider, model, response.usage?.prompt_tokens || 0, response.usage?.completion_tokens || 0);
+      const cachedTokens = response._metadata?.cachedTokens || response.usage?.cached_tokens || 0;
+      const cost = response._metadata?.cost || calculateCost(target.provider, model, response.usage?.prompt_tokens || 0, response.usage?.completion_tokens || 0, cachedTokens);
       logRequest(userId, model, target.provider, response.usage, 200, cost);
     }
 

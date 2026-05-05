@@ -74,7 +74,7 @@ export default function RequestHistory() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="border-b border-white/8">
+              <thead className="border-b border-white/10">
                 <tr>
                   <th className="text-left text-text-muted font-medium px-4 py-3">Time</th>
                   <th className="text-left text-text-muted font-medium px-4 py-3">Model</th>
@@ -86,7 +86,7 @@ export default function RequestHistory() {
               </thead>
               <tbody className="divide-y divide-white/5">
                 {filtered.map((log) => (
-                  <tr key={log.$id} className="hover:bg-white/3 transition-colors">
+                  <tr key={log.$id} className="hover:bg-white/5 transition-colors">
                     <td className="px-4 py-3 text-text-muted whitespace-nowrap">
                       {log.timestamp ? new Date(log.timestamp).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'}
                     </td>
@@ -110,7 +110,7 @@ export default function RequestHistory() {
           </div>
         )}
         {filtered.length > 0 && (
-          <div className="px-4 py-3 border-t border-white/8 text-xs text-text-muted">
+          <div className="px-4 py-3 border-t border-white/10 text-xs text-text-muted">
             Showing {filtered.length} of {logs.length} requests
           </div>
         )}

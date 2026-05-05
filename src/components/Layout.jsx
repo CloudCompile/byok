@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
   LayoutDashboard, Key, BarChart2, Settings, GitBranch,
-  History, Terminal, Menu, X, Zap, ChevronRight,
+  History, Terminal, Menu, X, Zap, ChevronRight, Layers,
 } from 'lucide-react';
 import clsx from 'clsx';
 
@@ -13,6 +13,7 @@ const NAV = [
   { href: '/analytics', label: 'Analytics', icon: BarChart2 },
   { href: '/history', label: 'History', icon: History },
   { href: '/routing', label: 'Routing Rules', icon: GitBranch },
+  { href: '/models', label: 'Models & Pricing', icon: Layers },
   { href: '/gateway', label: 'Gateway Keys', icon: Terminal },
   { href: '/settings', label: 'Settings', icon: Settings },
 ];
@@ -26,11 +27,11 @@ export default function Layout({ children }) {
       {/* Sidebar */}
       <aside className={clsx(
         'fixed inset-y-0 left-0 z-50 w-60 flex flex-col transition-transform duration-300',
-        'bg-black/40 backdrop-blur-xl border-r border-white/6',
+        'bg-black/40 backdrop-blur-xl border-r border-white/5',
         sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       )}>
         {/* Logo */}
-        <div className="flex items-center gap-2.5 px-5 py-5 border-b border-white/6">
+        <div className="flex items-center gap-2.5 px-5 py-5 border-b border-white/5">
           <div className="w-8 h-8 rounded-lg bg-blurple glow-sm flex items-center justify-center">
             <Zap size={16} className="text-white" />
           </div>
@@ -63,7 +64,7 @@ export default function Layout({ children }) {
         </nav>
 
         {/* Footer */}
-        <div className="px-4 py-4 border-t border-white/6">
+        <div className="px-4 py-4 border-t border-white/5">
           <div className="text-xs text-text-muted">
             <div className="font-mono">POST /v1/chat/completions</div>
             <div className="mt-1 flex items-center gap-1">
@@ -85,7 +86,7 @@ export default function Layout({ children }) {
       {/* Main */}
       <div className="flex-1 lg:ml-60 flex flex-col min-h-screen">
         {/* Top bar (mobile) */}
-        <header className="lg:hidden sticky top-0 z-30 flex items-center gap-3 px-4 py-3 bg-black/60 backdrop-blur-xl border-b border-white/6">
+        <header className="lg:hidden sticky top-0 z-30 flex items-center gap-3 px-4 py-3 bg-black/60 backdrop-blur-xl border-b border-white/5">
           <button onClick={() => setSidebarOpen(true)} className="text-text-secondary hover:text-text-primary">
             <Menu size={20} />
           </button>

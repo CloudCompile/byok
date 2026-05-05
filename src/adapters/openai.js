@@ -30,9 +30,11 @@ export async function translate(openaiRequest, apiKey) {
   const data = await response.json();
   const inputTokens = data.usage?.prompt_tokens || 0;
   const outputTokens = data.usage?.completion_tokens || 0;
+  const cachedTokens = data.usage?.prompt_tokens_details?.cached_tokens || 0;
 
   return {
     ...data,
-    _metadata: { provider: config.name, cost: calculateCost(config.name, openaiRequest.model, inputTokens, outputTokens) },
+    usage: { ...data.usage, cached_tokens: cachedTokens },
+    _metadata: { provider: config.name, cachedTokens, cost: calculateCost(config.name, openaiRequest.model, inputTokens, outputTokens, cachedTokens) },
   };
 }

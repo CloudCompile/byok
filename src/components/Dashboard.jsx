@@ -188,7 +188,7 @@ export default function Dashboard() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-white/8">
+                <tr className="border-b border-white/10">
                   <th className="text-left text-text-muted font-medium pb-2">Provider</th>
                   <th className="text-right text-text-muted font-medium pb-2">Requests</th>
                   <th className="text-right text-text-muted font-medium pb-2">Tokens</th>
@@ -197,7 +197,7 @@ export default function Dashboard() {
               </thead>
               <tbody className="divide-y divide-white/5">
                 {byProvider.map((row) => (
-                  <tr key={row.provider} className="hover:bg-white/3 transition-colors">
+                  <tr key={row.provider} className="hover:bg-white/5 transition-colors">
                     <td className="py-2.5 font-medium text-text-primary capitalize">{row.provider}</td>
                     <td className="py-2.5 text-right text-text-secondary">{row.requests.toLocaleString()}</td>
                     <td className="py-2.5 text-right text-text-secondary">{row.tokens.toLocaleString()}</td>
