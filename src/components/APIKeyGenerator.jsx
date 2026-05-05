@@ -62,7 +62,7 @@ export default function APIKeyGenerator() {
           <span className="section-title text-sm">Usage</span>
         </div>
         <pre className="text-xs font-mono text-text-secondary overflow-x-auto">
-{`curl https://your-domain.vercel.app/api/v1/chat/completions \\
+{`curl https://byok-eta.vercel.app/api/v1/chat/completions \\
   -H "Authorization: Bearer byok_<keyId>_<secret>" \\
   -H "Content-Type: application/json" \\
   -d '{
