@@ -54,25 +54,7 @@ export function detectProvider(model) {
   return null;
 }
 
-export function findBestProvider(model, userKeys, userRules = []) {
-  // Apply routing rules first
-  for (const rule of userRules.sort((a, b) => (b.priority || 0) - (a.priority || 0))) {
-    if (!rule.isActive) continue;
-
-    let matches = false;
-    const condVal = rule.conditionValue?.toLowerCase() || '';
-
-    if (rule.condition === 'model_prefix' && model.toLowerCase().startsWith(condVal)) matches = true;
-    if (rule.condition === 'model_exact' && model.toLowerCase() === condVal) matches = true;
-    if (rule.condition === 'model_contains' && model.toLowerCase().includes(condVal)) matches = true;
-    if (rule.condition === 'always') matches = true;
-
-    if (matches) {
-      const key = userKeys.find((k) => k.provider === rule.targetProvider && k.isActive);
-      if (key) return { key, provider: rule.targetProvider };
-    }
-  }
-
+export function findBestProvider(model, userKeys) {
   // Auto-detect provider from model name
   const detected = detectProvider(model);
   if (detected) {
@@ -127,7 +109,7 @@ export async function logRequest(userId, model, provider, usage, statusCode, cos
   }
 }
 
-export async function routeRequest(openaiRequest, userKeys, userRules, userId) {
+export async function routeRequest(openaiRequest, userKeys, userId) {
   // Support "@provider/model" prefix for explicit provider targeting
   const { provider: prefixedProvider, model: strippedModel } = parseProviderPrefix(openaiRequest.model || '');
   const effectiveRequest = prefixedProvider
@@ -141,7 +123,7 @@ export async function routeRequest(openaiRequest, userKeys, userRules, userId) {
     if (!key) throw new Error(`No active key for provider "${prefixedProvider}". Add one in the dashboard.`);
     target = { key, provider: prefixedProvider };
   } else {
-    target = findBestProvider(model, userKeys, userRules);
+    target = findBestProvider(model, userKeys);
   }
 
   if (!target) {

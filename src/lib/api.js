@@ -38,12 +38,6 @@ export const createKey = (data) => req('POST', '/api/keys', data);
 export const updateKey = (data) => req('PUT', '/api/keys', data);
 export const deleteKey = (id) => req('DELETE', `/api/keys?id=${id}`);
 
-// Routing rules
-export const fetchRules = () => req('GET', '/api/rules');
-export const createRule = (data) => req('POST', '/api/rules', data);
-export const updateRule = (data) => req('PUT', '/api/rules', data);
-export const deleteRule = (id) => req('DELETE', `/api/rules?id=${id}`);
-
 // Usage / analytics
 export const fetchUsage = (days = 30, limit = 200) =>
   req('GET', `/api/usage?days=${days}&limit=${limit}`);

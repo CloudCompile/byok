@@ -27,22 +27,13 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: { message: 'Invalid or missing API key', type: 'authentication_error' } });
     }
 
-    const [keysResult, rulesResult] = await Promise.all([
-      databases.listDocuments(DB_ID, COLLECTIONS.API_KEYS, [
-        Query.equal('userId', user.userId),
-        Query.equal('isActive', true),
-        Query.limit(100),
-      ]),
-      databases.listDocuments(DB_ID, COLLECTIONS.ROUTING_RULES, [
-        Query.equal('userId', user.userId),
-        Query.equal('isActive', true),
-        Query.orderDesc('priority'),
-        Query.limit(50),
-      ]),
+    const keysResult = await databases.listDocuments(DB_ID, COLLECTIONS.API_KEYS, [
+      Query.equal('userId', user.userId),
+      Query.equal('isActive', true),
+      Query.limit(100),
     ]);
 
     const userKeys = keysResult.documents;
-    const userRules = rulesResult.documents;
 
     if (userKeys.length === 0) {
       return res.status(400).json({
@@ -58,7 +49,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const response = await routeRequest(openaiRequest, userKeys, userRules, user.userId);
+    const response = await routeRequest(openaiRequest, userKeys, user.userId);
 
     if (response.stream) {
       res.setHeader('Content-Type', 'text/event-stream');

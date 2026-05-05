@@ -13,7 +13,6 @@ export const DB_ID = process.env.APPWRITE_DATABASE_ID || 'byok_db';
 
 export const COLLECTIONS = {
   API_KEYS: 'api_keys',
-  ROUTING_RULES: 'routing_rules',
   REQUEST_LOGS: 'request_logs',
   GATEWAY_KEYS: 'gateway_keys',
 };
